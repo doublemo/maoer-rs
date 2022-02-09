@@ -1,11 +1,9 @@
-/// 服务id定义
+//! 主要定义协议相关信息
+//! 
+//! 
+
+/// 服务id
 pub mod kits;
 
-#[cfg(test)]
-mod tests {
-    #[test]
-    fn it_works() {
-        let result = 2 + 2;
-        assert_eq!(result, 4);
-    }
-}
+/// 命令编号
+pub mod commands;

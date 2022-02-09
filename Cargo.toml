@@ -31,8 +31,6 @@ tokio = { version = "1.15.0", features = ["full"] }
 tokio-util = { version = "0.6.9", features = ["full"] }
 async-trait = "0.1.52"
 clap = { version = "3.0.13", features = ["derive"] }
-enum_index = "0.2.0"
-enum_index_derive = "0.2.0"
 maoer-cores = { version = "0.1.0", path = "./cores" }
 maoer-protocols = { version = "0.1.0", path = "./protocols" }
 maoer-agent = { version = "0.1.0", path = "./kits/agent" }

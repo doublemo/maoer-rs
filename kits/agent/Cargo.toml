@@ -22,3 +22,4 @@ futures = "0.3"
 pin-project="1.0.0"
 clap = { version = "3.0.13", features = ["derive"] }
 maoer-cores = { version = "0.1.0", path = "../../cores" }
+maoer-protocols = { version = "0.1.0", path = "../../protocols" }

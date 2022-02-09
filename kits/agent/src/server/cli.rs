@@ -2,6 +2,7 @@ use clap::Parser;
 use std::fmt;
 use std::process;
 use std::sync::Arc;
+use tracing;
 use futures::future::{self, Either};
 use tokio::runtime::Builder;
 use crate::server;
@@ -35,7 +36,7 @@ impl fmt::Display for Args {
 
 /// Program entrance `main`
 pub fn run(args: &Args) -> Result<(), Box<dyn std::error::Error>> {
-    println!("servet ok {}", args.config);
+    tracing::info!("-d----d----d-d-d-d- {}", args);
     let ctx = Arc::new(Context::new());
     let runtime = Builder::new_multi_thread()
                                     .enable_all()

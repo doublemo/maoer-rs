@@ -5,12 +5,6 @@ macro_rules! make_errors {
         $kit:expr,
         $($keys: ident => $values: expr,)+
     ) => {
-        extern crate enum_index;
-        #[macro_use]
-        extern crate enum_index_derive;
-        use enum_index::{EnumIndex, IndexEnum};
-
-        #[derive(EnumIndex, IndexEnum, Debug, Copy, Clone)]
         pub enum $name {
             $($keys),+
         }
@@ -20,7 +14,7 @@ macro_rules! make_errors {
                 use $name::*;
                 match *self {
                     $( $keys => {
-                        let i = $crate::error::make_errcode($kit as i32, $keys.enum_index() as u32, None);
+                        let i = $crate::error::make_errcode($kit as i32, $keys as u32, None);
                         maoer_cores::error::Error::new(i as i32, String::from($values))
                     },)+
                     
