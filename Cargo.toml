@@ -1,0 +1,38 @@
+[package]
+name = "maoer"
+version = "0.1.0"
+authors = ["Randy Ma<435420057@qq.com>"]
+description = "maoer-s is a app server."
+repository = "https://github.com/doublemo/maoer-rs"
+readme = "README.md"
+documentation = "https://docs.rs/maoer-rs"
+keywords = ["app server"]
+license = "MIT"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[[bin]]
+name = "agent"
+path = "cmd/agent.rs"
+required-features = []
+
+[workspace]
+members = [
+    "cores",
+    "protocols",
+    "kits/agent"
+]
+
+[dependencies]
+tracing = "0.1"
+tracing-subscriber = { version = "0.2.7", default-features = false, features = ["fmt", "ansi", "env-filter", "chrono", "tracing-log"] }
+tokio = { version = "1.15.0", features = ["full"] }
+tokio-util = { version = "0.6.9", features = ["full"] }
+async-trait = "0.1.52"
+clap = { version = "3.0.13", features = ["derive"] }
+enum_index = "0.2.0"
+enum_index_derive = "0.2.0"
+maoer-cores = { version = "0.1.0", path = "./cores" }
+maoer-protocols = { version = "0.1.0", path = "./protocols" }
+maoer-agent = { version = "0.1.0", path = "./kits/agent" }
