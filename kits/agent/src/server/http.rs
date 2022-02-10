@@ -37,7 +37,7 @@ pub(crate) async fn run(_ctx:Arc<Context>, addr:SocketAddr) -> io::Result<()> {
                 Err(_e) => Ok(())
             }
         },
-        Err(e) => {
+        Err(_e) => {
             Ok(())
         }
     }

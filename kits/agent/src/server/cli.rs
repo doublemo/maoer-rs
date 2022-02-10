@@ -2,7 +2,6 @@ use clap::Parser;
 use std::fmt;
 use std::process;
 use std::sync::Arc;
-use tracing;
 use futures::future::{self, Either};
 use tokio::runtime::Builder;
 use crate::server;
@@ -14,29 +13,34 @@ use maoer_cores::monitor;
 #[clap(about,author,version)]
 pub struct Args {
     /// 配置文件地址
-    #[clap(short, long, default_value_t=String::from("conf/agent.conf"))]
-    config:String,
+    #[clap(short, long, default_value_t=String::from("configs/agent.toml"))]
+    pub config:String,
 
-    // 设置调试等级
+    /// 设置调试等级
     #[clap(short, long, parse(from_occurrences))]
-    debug: usize,
+    pub debug: usize,
+
+    /// 日志等级
+    #[clap(short, long, default_value_t=String::from("info"))]
+    pub log_level:String
 }
 
 impl fmt::Display for Args {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, " 
                     config: {},
-                    debug:{}
+                    debug:{},
+                    log_level: {}
                   ", 
                     &self.config, 
-                    &self.debug
+                    &self.debug,
+                    &self.log_level
         )
     }
 }
 
 /// Program entrance `main`
-pub fn run(args: &Args) -> Result<(), Box<dyn std::error::Error>> {
-    tracing::info!("-d----d----d-d-d-d- {}", args);
+pub fn run(_args: &Args) -> Result<(), Box<dyn std::error::Error>> {
     let ctx = Arc::new(Context::new());
     let runtime = Builder::new_multi_thread()
                                     .enable_all()
