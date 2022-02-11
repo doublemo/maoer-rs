@@ -4,7 +4,8 @@ use std::{fmt, error};
 
 mod macros;
 
-
+#[allow(unused)]
+/// 自定义错误Result
 type Result<T> = std::result::Result<T, Error>;
 
 #[derive(Debug, Clone)]

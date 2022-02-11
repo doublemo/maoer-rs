@@ -3,5 +3,5 @@ log_level = "info"
 
 [socket]
 backlog = 1024
-addr = "0.0.0.0"
+addr = "::"
 port = 8088

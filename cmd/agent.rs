@@ -1,6 +1,6 @@
 use std::str::FromStr;
 
-use clap::Parser;
+use clap::{Parser};
 use maoer_agent::server::cli;
 use maoer_agent::server::cli::Args;
 use maoer_agent::config;
@@ -40,6 +40,6 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     tracing::info!("            https://github.com/doublemo/maoer-rs ");
     config::show();
 
-    cli::run(&args)
+    cli::run()
 }
 

@@ -13,7 +13,7 @@ use socket2::{Socket as Socket2, SockAddr};
 use crate::server::Context;
 use crate::peer::{Peer, handle_msg};
 
-pub(crate) async fn run(_ctx:Arc<Context>, addr:SocketAddr) -> io::Result<()> {
+pub(crate) async fn run(_ctx:Arc<Context>, addr:SocketAddr, backlog:u32) -> io::Result<()> {
     let socket = match addr {
         SocketAddr::V4(..) => TcpSocket::new_v4()?,
         SocketAddr::V6(..) => TcpSocket::new_v6()?,
@@ -30,7 +30,7 @@ pub(crate) async fn run(_ctx:Arc<Context>, addr:SocketAddr) -> io::Result<()> {
     }
     
     tracing::info!("Listening on: {}", addr);
-    let listener = socket.listen(1024)?;
+    let listener = socket.listen(backlog)?;
     while let Ok((stream, saddr)) = listener.accept().await {
         tokio::spawn(accept_connection(saddr, stream));
     }

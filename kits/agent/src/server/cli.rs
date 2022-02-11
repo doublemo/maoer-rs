@@ -40,7 +40,7 @@ impl fmt::Display for Args {
 }
 
 /// Program entrance `main`
-pub fn run(_args: &Args) -> Result<(), Box<dyn std::error::Error>> {
+pub fn run() -> Result<(), Box<dyn std::error::Error>> {
     let ctx = Arc::new(Context::new());
     let runtime = Builder::new_multi_thread()
                                     .enable_all()

@@ -12,16 +12,23 @@ lazy_static::lazy_static! {
 #[derive(Debug, Deserialize)]
 #[allow(unused)]
 pub struct Socket {
-    pub backlog: usize,
+    pub backlog: u32,
     pub addr:String,
-    pub port: usize
+    pub port: u16
 }
 
 #[derive(Debug, Deserialize)]
 #[allow(unused)]
 pub struct Websocket {
     pub addr:String,
-    pub port: usize
+    pub port: u16
+}
+
+#[derive(Debug, Deserialize)]
+#[allow(unused)]
+pub struct Http {
+    pub addr:String,
+    pub port: u16
 }
 
 
@@ -36,28 +43,61 @@ pub struct Configuration{
     pub log_level:String,
 
     /// socket网络连接设置
-    pub socket: Socket,
+    pub socket: Option<Socket>,
 
     /// websocket连接设置
     pub websocket:Option<Websocket>,
+
+    /// http
+    pub http:Option<Http>,
 }
 
 impl Configuration {
     pub fn new() -> Result<Self, ConfigError> {
         let s = SETTINGS.read().unwrap().clone();
         let mut config:Configuration = s.try_into()?;
+
+        // 设置默认值
+        if config.socket.is_none() {
+            config.socket = Some(Socket::default());
+        }
+
         if config.websocket.is_none() {
             config.websocket = Some(Websocket::default());
         }
+
+        if config.http.is_none() {
+            config.http = Some(Http::default());
+        }
+
         Ok(config)
+    }
+}
+
+impl Default for Socket {
+    fn default() -> Self {
+        Socket {
+            backlog:1024,
+            addr:String::from("::"),
+            port: 8088,
+        }
     }
 }
 
 impl Default for Websocket {
     fn default() -> Self {
         Websocket {
-            addr:String::from("0.0.0.0"),
+            addr:String::from("::"),
             port: 8089,
+        }
+    }
+}
+
+impl Default for Http {
+    fn default() -> Self {
+        Http {
+            addr:String::from("::"),
+            port: 8090,
         }
     }
 }
@@ -90,11 +130,17 @@ pub fn show() {
     tracing::info!("----------------- MAOER ----------------------");
     tracing::info!(" debug: {}", config.debug);
     tracing::info!(" log_level: {}", config.log_level);
-    tracing::info!(" socket.backlog: {}", config.socket.backlog);
-    tracing::info!(" socket.backlog: {}", config.socket.backlog);
-    tracing::info!(" socket.addr: {}:{}", config.socket.addr, config.socket.port);
+    if let Some(w) = config.socket {
+        tracing::info!(" socket.backlog: {}", w.backlog);
+        tracing::info!(" socket.addr: {}:{}", w.addr, w.port);
+    }
+
     if let Some(w) = config.websocket {
         tracing::info!(" websocket.addr: {}:{}", w.addr, w.port);
+    }
+
+    if let Some(w) = config.http {
+        tracing::info!(" http.addr: {}:{}", w.addr, w.port);
     }
 
     tracing::info!("----------------------------------------------");
